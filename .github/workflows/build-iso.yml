@@ -70,11 +70,13 @@ jobs:
         run: |
           set -e
           shopt -s nullglob
-          for f in ./*.iso; do ISO=$f; break; done
-          if [ -z "${ISO:-}" ]; then
-            echo "::error::No se encontró ninguna ISO generada."
-            exit 1
-          fi
+          ISO=""
+          for f in ./*.iso; do
+            ISO="$f"
+            break
+          done
+          # shellcheck disable=SC2012
+          [ -z "$ISO" ] && ISO="$(ls -1 ./*.iso 2>/dev/null | head -n1 || true)"
           SIZE_MB=$(du -m "$ISO" | cut -f1)
           echo "### ISO generada: \`$(basename "$ISO")\` — ${SIZE_MB} MB" >> "$GITHUB_STEP_SUMMARY"
           echo "size_mb=${SIZE_MB}" >> "$GITHUB_OUTPUT"
