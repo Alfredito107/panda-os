@@ -69,7 +69,15 @@ jobs:
         id: size
         run: |
           set -e
-          ISO=$(ls ./*.iso | head -n1)
+          # 'nullglob' hace que el comodín no se expanda si no hay ISO, y se usa
+          # un array en lugar de 'ls' (ShellCheck SC2012: nombres con espacios).
+          shopt -s nullglob
+          ISOS=(./*.iso)
+          if [ ${#ISOS[@]} -eq 0 ]; then
+            echo "::error::No se encontró ninguna ISO generada."
+            exit 1
+          fi
+          ISO="${ISOS[0]}"
           SIZE_MB=$(du -m "$ISO" | cut -f1)
           echo "### ISO generada: \`$(basename "$ISO")\` — ${SIZE_MB} MB" >> "$GITHUB_STEP_SUMMARY"
           echo "size_mb=${SIZE_MB}" >> "$GITHUB_OUTPUT"
