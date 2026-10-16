@@ -1,0 +1,44 @@
+# ============================================================================
+#  PandA! OS · 03 - Suite de oficina (LibreOffice completa en español)
+# ============================================================================
+# Metapaquete + componentes explícitos: Writer, Calc, Impress, Draw, Base, Math
+# IMPORTANTE: un paquete por línea, sin comentarios al final de la línea
+# (live-build pasa cada palabra suelta a 'apt-get install').
+
+libreoffice
+libreoffice-core
+libreoffice-common
+libreoffice-writer
+libreoffice-calc
+libreoffice-impress
+libreoffice-draw
+libreoffice-base
+libreoffice-math
+libreoffice-base-core
+libreoffice-base-drivers
+
+# --- Idioma español ---------------------------------------------------------
+libreoffice-l10n-es
+# libreoffice-help-es ocupa ~50 MB: bórralo si necesitas ahorrar espacio
+libreoffice-help-es
+
+# --- Corrector ortográfico, separación silábica y sinónimos en español ------
+hunspell-es
+hyphen-es
+mythes-es
+
+# --- Integración con el escritorio KDE --------------------------------------
+# En Debian 13 (LibreOffice 25.2) la integración nativa es Qt6/KF6:
+# libreoffice-kf6 es el paquete correcto en trixie (libreoffice-kf5 no existe).
+libreoffice-kf6
+# Alternativa si la integración KF6 diera problemas (interfaz GTK3):
+# libreoffice-gtk3
+
+# --- Tipografías habituales en documentos de oficina ------------------------
+# fonts-crosextra-caladea -> métricamente compatible con Cambria
+# fonts-crosextra-carlito -> métricamente compatible con Calibri
+fonts-liberation
+fonts-dejavu
+fonts-crosextra-caladea
+fonts-crosextra-carlito
+fonts-noto-core

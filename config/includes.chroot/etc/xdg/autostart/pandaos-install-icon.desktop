@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=PandA! OS - icono del instalador
+Comment=Crea el acceso directo "Instalar PandA! OS" en el escritorio de la sesión live
+Exec=/usr/local/bin/pandaos-desktop-icon
+Terminal=false
+NoDisplay=true
+StartupNotify=false
+# Igual que calamares-settings-debian: arrancar en la fase inicial de KDE
+X-GNOME-Autostart-Phase=Initialization
+X-KDE-autostart-phase=1

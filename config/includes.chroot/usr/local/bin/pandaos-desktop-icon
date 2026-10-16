@@ -1,0 +1,23 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS · Crea el icono "Instalar PandA! OS" en el escritorio de la
+#  sesión live. Se lanza automáticamente al iniciar KDE Plasma.
+# =============================================================================
+
+# En KDE el directorio de escritorio depende del idioma: lo consultamos
+if command -v xdg-user-dir >/dev/null 2>&1; then
+	DESKTOP_DIR="$(xdg-user-dir DESKTOP 2>/dev/null)"
+fi
+[ -n "${DESKTOP_DIR:-}" ] || DESKTOP_DIR="${HOME}/Escritorio"
+
+mkdir -p "$DESKTOP_DIR" 2>/dev/null || exit 0
+
+cp /usr/share/applications/pandaos-install.desktop "$DESKTOP_DIR/" 2>/dev/null || exit 0
+chmod +x "$DESKTOP_DIR/pandaos-install.desktop" 2>/dev/null || true
+
+# KDE/KIO exige marcar el lanzador como "de confianza"
+if command -v gio >/dev/null 2>&1; then
+	gio set "$DESKTOP_DIR/pandaos-install.desktop" metadata::trusted true 2>/dev/null || true
+fi
+
+exit 0

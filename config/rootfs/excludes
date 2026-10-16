@@ -1,0 +1,33 @@
+# =============================================================================
+#  PandA! OS · Ficheros excluidos del SquashFS (config/rootfs/excludes)
+# -----------------------------------------------------------------------------
+#  live-build ejecuta:  mksquashfs chroot filesystem.squashfs -wildcards -ef excludes
+#  Los patrones se comparan con y sin '/' inicial (se incluyen ambas variantes
+#  para ser compatibles con distintas versiones de squashfs-tools); los patrones
+#  que no coincidan simplemente se ignoran.
+# =============================================================================
+
+# Páginas de manual e información (la ayuda de LibreOffice NO se toca)
+usr/share/man/*
+/usr/share/man/*
+usr/share/info/*
+/usr/share/info/*
+
+# Metadatos de revisión de paquetes
+usr/share/lintian/*
+/usr/share/lintian/*
+usr/share/linda/*
+/usr/share/linda/*
+
+# Cachés de APT (no hacen falta en un sistema live)
+var/cache/apt/*
+/var/cache/apt/*
+var/lib/apt/lists/*
+/var/lib/apt/lists/*
+
+# -----------------------------------------------------------------------------
+# OPCIONAL: ahorra otros ~150 MB, pero elimina los avisos de copyright de los
+# paquetes. Revísalo antes de distribuir la ISO públicamente.
+# -----------------------------------------------------------------------------
+# usr/share/doc/*
+# /usr/share/doc/*

@@ -1,0 +1,44 @@
+# ============================================================================
+#  PandA! OS · 01 - Base del sistema live
+# ============================================================================
+# Los ficheros *.list.chroot los instala live-build dentro del sistema live.
+# Un paquete por línea; las líneas que empiezan por # son comentarios.
+
+# --- Arranque del sistema live ----------------------------------------------
+# (live-build los añade por su cuenta; se listan para dejar constancia)
+live-boot
+live-config
+live-config-systemd
+live-tools
+
+# --- Idioma, teclado y zona horaria -----------------------------------------
+locales
+console-setup
+keyboard-configuration
+tzdata
+
+# --- Utilidades básicas de oficina/taller -----------------------------------
+sudo
+rsync
+curl
+wget
+gnupg
+ca-certificates
+less
+nano
+vim-tiny
+htop
+file
+zip
+unzip
+p7zip-full
+tree
+pciutils
+usbutils
+lshw
+
+# --- Almacenamiento externo (USB, discos de inventario) ---------------------
+ntfs-3g
+exfatprogs
+dosfstools
+parted

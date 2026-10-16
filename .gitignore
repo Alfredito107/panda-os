@@ -1,0 +1,39 @@
+# =============================================================================
+#  PandA! OS · Ficheros generados durante la compilación (no se versionan)
+# =============================================================================
+
+# Directorios de trabajo de live-build
+binary/
+bootstrap/
+chroot/
+cache/
+source/
+
+# Estado y registros
+.build
+build.log
+chroot.files
+chroot.packages.*
+
+# Configuración generada por `lb config` (se regenera sola)
+config/binary
+config/bootstrap
+config/chroot
+config/common
+config/source
+
+# Imágenes y metadatos
+*.iso
+*.iso.zsync
+*.iso.sha256
+*.squashfs
+*.packages
+*.contents
+*.files
+*.list
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

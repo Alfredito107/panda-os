@@ -1,0 +1,12 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS  ·  Limpieza del directorio de compilación
+#  Uso:  ./auto/clean        (equivale a `lb clean --all` + borrado de cachés)
+# =============================================================================
+
+set -e
+
+lb clean noauto "${@}"
+
+rm -f config/binary config/bootstrap config/chroot config/common config/source
+rm -rf cache build.log

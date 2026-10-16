@@ -1,0 +1,32 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS · Lanzador del instalador (solo sesión live)
+#  Basado en el envoltorio `calamares-install-debian` de calamares-settings-debian.
+# =============================================================================
+
+# live-build deja un /etc/fstab que confunde al módulo de particionado:
+# se aparta temporalmente y se restaura al terminar.
+if [ -f /etc/fstab ]; then
+	sudo mv /etc/fstab /etc/fstab.orig.pandaos 2>/dev/null || true
+fi
+
+# Escalado correcto de la ventana en pantallas HiDPI
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+
+# Permiso del usuario root para el servidor X (necesario con XWayland)
+if command -v xhost >/dev/null 2>&1; then
+	xhost +si:localuser:root 2>/dev/null || true
+fi
+
+pkexec calamares
+
+if command -v xhost >/dev/null 2>&1; then
+	xhost -si:localuser:root 2>/dev/null || true
+fi
+
+# Restaurar el fstab de la sesión live
+if [ -f /etc/fstab.orig.pandaos ]; then
+	sudo mv /etc/fstab.orig.pandaos /etc/fstab 2>/dev/null || true
+fi
+
+exit 0

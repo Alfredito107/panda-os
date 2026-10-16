@@ -1,0 +1,41 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS  ·  Configuración de Debian Live-Build
+#  ---------------------------------------------------------------------------
+#  Este script es invocado automáticamente por `lb config` / `lb build`.
+#  Define: Debian 13 "trixie" amd64, ISO híbrida (BIOS + UEFI), SquashFS xz,
+#  KDE Plasma, LibreOffice completo en español y Calamares.
+#
+#  IMPORTANTE: la ruta del directorio de compilación NO puede contener espacios
+#  (restricción interna de live-build). Usa por ejemplo ~/panda-os
+# =============================================================================
+
+set -e
+
+lb config noauto \
+	--mode debian \
+	--architectures amd64 \
+	--linux-flavours amd64 \
+	--distribution trixie \
+	--parent-distribution trixie \
+	--archive-areas "main contrib non-free non-free-firmware" \
+	--binary-images iso-hybrid \
+	--bootloaders "grub-efi,syslinux" \
+	--debian-installer none \
+	--memtest none \
+	--firmware-chroot true \
+	--apt-recommends true \
+	--apt-indices false \
+	--chroot-filesystem squashfs \
+	--chroot-squashfs-compression-type xz \
+	--compression xz \
+	--initramfs-compression lzma \
+	--zsync true \
+	--checksums sha256 \
+	--bootappend-live "boot=live components username=panda hostname=pandaos locales=es_ES.UTF-8 keyboard-layouts=es timezone=Europe/Madrid utc=yes" \
+	--iso-application "PandA! OS" \
+	--iso-preparer "PandA! OS build system (Debian Live-Build)" \
+	--iso-publisher "PandA! OS - https://github.com/Alfredito107/panda-os" \
+	--iso-volume "PandA_OS_1.0" \
+	--image-name "panda-os" \
+	"${@}"

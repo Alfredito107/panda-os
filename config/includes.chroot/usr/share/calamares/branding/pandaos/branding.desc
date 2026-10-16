@@ -1,0 +1,44 @@
+# =============================================================================
+#  PandA! OS · Branding de Calamares
+#  Directorio: /usr/share/calamares/branding/pandaos
+#  Referenciado desde /etc/calamares/settings.conf  ->  branding: pandaos
+# =============================================================================
+---
+componentName:   pandaos
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: normal
+windowSize: 880px,620px
+windowPlacement: center
+
+strings:
+    productName:         PandA! OS
+    shortProductName:    PandA! OS
+    version:             "1.0"
+    shortVersion:        "1.0"
+    versionedName:       PandA! OS 1.0
+    shortVersionedName:  PandA! OS 1.0
+    bootloaderEntryName: PandA! OS
+    productUrl:          https://github.com/Alfredito107/panda-os
+    supportUrl:          https://github.com/Alfredito107/panda-os/issues
+    knownIssuesUrl:      https://github.com/Alfredito107/panda-os/issues
+    releaseNotesUrl:     https://github.com/Alfredito107/panda-os/releases
+    donateUrl:           https://github.com/Alfredito107/panda-os
+
+sidebar: widget
+navigation: widget
+
+images:
+    productLogo:         "panda-logo.png"
+    productIcon:         "panda-logo.png"
+    productWelcome:      "panda-welcome.png"
+
+# Presentación de diapositivas durante la instalación (opcional).
+# Calamares espera un fichero "show.qml" en este mismo directorio:
+# slideshow: "show.qml"
+
+style:
+   SidebarBackground:        "#1d3b28"
+   SidebarText:              "#FFFFFF"
+   SidebarTextCurrent:       "#FFFFFF"
+   SidebarBackgroundCurrent: "#2f8f4e"

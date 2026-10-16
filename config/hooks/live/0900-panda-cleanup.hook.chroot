@@ -1,0 +1,37 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS · 0900 - Limpieza final (reduce el tamaño del SquashFS y de la ISO)
+# -----------------------------------------------------------------------------
+#  Se ejecuta al final del chroot, justo antes de crear la imagen comprimida.
+# =============================================================================
+
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo "[PandA! OS] Limpiando cachés y documentación para reducir el tamaño de la ISO"
+
+# --- Cachés de APT ----------------------------------------------------------
+apt-get -y clean 2>/dev/null || true
+apt-get -y autoclean 2>/dev/null || true
+rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb 2>/dev/null || true
+rm -rf /var/cache/debconf/*-old 2>/dev/null || true
+
+# --- Documentación ----------------------------------------------------------
+# Se eliminan README, ejemplos y registros de cambios de los paquetes, pero se
+# CONSERVAN los ficheros 'copyright' (obligación legal al redistribuir).
+if [ -d /usr/share/doc ]; then
+	for dir in /usr/share/doc/*/; do
+		[ -d "$dir" ] || continue
+		find "$dir" -mindepth 1 -maxdepth 1 ! -name copyright -exec rm -rf {} + 2>/dev/null || true
+	done
+fi
+
+# --- Copias locales de ficheros de paquetes ---------------------------------
+rm -f /usr/share/info/dir 2>/dev/null || true
+rm -rf /var/backups/* 2>/dev/null || true
+
+# --- Historial y temporales -------------------------------------------------
+rm -f /root/.bash_history /root/.wget-hsts /root/.lesshst 2>/dev/null || true
+rm -rf /tmp/* /var/tmp/* 2>/dev/null || true
+
+echo "[PandA! OS] Limpieza completada"

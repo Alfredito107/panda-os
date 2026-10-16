@@ -1,0 +1,37 @@
+# ============================================================================
+#  PandA! OS · 02 - Entorno gráfico KDE Plasma
+# ============================================================================
+# IMPORTANTE: solo se escribe UN PAQUETE POR LÍNEA, sin nada detrás.
+# live-build entrega estas líneas a 'apt-get install' palabra por palabra
+# (xargs), así que un comentario al final de una línea se interpretaría como
+# nombres de paquete y rompería la compilación. Los comentarios van SIEMPRE
+# en su propia línea, empezando por #.
+
+# --- Escritorio completo KDE Plasma -----------------------------------------
+# kde-standard arrastra Plasma, Dolphin, Konsole, KWin, etc.
+kde-standard
+
+# --- Gestor de sesión (login gráfico) ---------------------------------------
+sddm
+sddm-theme-breeze
+sddm-theme-debian-breeze
+kde-config-sddm
+
+# --- Componentes de Plasma que conviene asegurar ----------------------------
+# plasma-nm         -> applet de red / wifi (NetworkManager)
+# plasma-pa         -> control de volumen (PulseAudio/PipeWire)
+# bluedevil         -> Bluetooth (KDE)
+# plasma-workspace  -> sesiones X11 y Wayland de Plasma
+plasma-nm
+plasma-pa
+bluedevil
+plasma-workspace
+plasma-desktop
+systemsettings
+dolphin
+konsole
+kwin-x11
+
+# --- Utilidades de la bandeja del sistema -----------------------------------
+xdg-utils
+xdg-user-dirs

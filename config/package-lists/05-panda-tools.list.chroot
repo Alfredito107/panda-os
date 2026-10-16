@@ -1,0 +1,19 @@
+# ============================================================================
+#  PandA! OS · 05 - Visores y herramientas de trabajo
+# ============================================================================
+# okular               -> visor universal de documentos (PDF, etc.)
+# okular-extra-backends-> soporte adicional (CHM, etc.)
+# xournalpp            -> anotación de PDF y notas a mano (tabletas/escáner)
+# simple-scan          -> digitalización con escáner
+# ark                  -> archivador/comprimidor de ficheros
+# kcalc                -> calculadora científica
+# kate                 -> editor de texto avanzado
+# IMPORTANTE: un paquete por línea, sin comentarios al final de la línea.
+
+okular
+okular-extra-backends
+xournalpp
+simple-scan
+ark
+kcalc
+kate

@@ -1,0 +1,124 @@
+#!/bin/sh
+# =============================================================================
+#  PandA! OS · 0100 - Configuración regional, sesión gráfica y servicios
+# -----------------------------------------------------------------------------
+#  El hook se ejecuta dentro del chroot, DESPUÉS de instalar los paquetes y de
+#  copiar config/includes.chroot (por eso aquí ya existen los ficheros de
+#  /usr/local/bin).
+# =============================================================================
+
+set -e
+
+echo "[PandA! OS] Configurando idioma, teclado y zona horaria (es_ES · es · Europe/Madrid)"
+
+# --- Locales ----------------------------------------------------------------
+if [ -f /etc/locale.gen ]; then
+	sed -i 's/^# *\(es_ES\.UTF-8 UTF-8\)/\1/' /etc/locale.gen
+	grep -q '^es_ES\.UTF-8 UTF-8' /etc/locale.gen || echo 'es_ES.UTF-8 UTF-8' >> /etc/locale.gen
+	grep -q '^en_US\.UTF-8 UTF-8' /etc/locale.gen || echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+fi
+
+if command -v locale-gen >/dev/null 2>&1; then
+	locale-gen
+fi
+
+if command -v update-locale >/dev/null 2>&1; then
+	update-locale \
+		LANG=es_ES.UTF-8 \
+		LANGUAGE=es_ES:es \
+		LC_NUMERIC=es_ES.UTF-8 \
+		LC_TIME=es_ES.UTF-8 \
+		LC_MONETARY=es_ES.UTF-8 \
+		LC_PAPER=es_ES.UTF-8 \
+		LC_MEASUREMENT=es_ES.UTF-8
+fi
+
+# --- Teclado (consola y servidor gráfico) -----------------------------------
+if command -v debconf-set-selections >/dev/null 2>&1; then
+	debconf-set-selections <<'EOF'
+keyboard-configuration keyboard-configuration/modelcode select pc105
+keyboard-configuration keyboard-configuration/layoutcode select es
+keyboard-configuration keyboard-configuration/xkb-keymap select es
+keyboard-configuration keyboard-configuration/variant select Spanish
+console-setup console-setup/charmap47 select UTF-8
+console-setup console-setup/codeset47 select Guess optimal character set
+EOF
+fi
+
+cat > /etc/default/keyboard <<'EOF'
+# PandA! OS - teclado en español
+XKBMODEL="pc105"
+XKBLAYOUT="es"
+XKBVARIANT=""
+XKBOPTIONS=""
+BACKSPACE="guess"
+EOF
+
+# --- Zona horaria -----------------------------------------------------------
+if [ -e /usr/share/zoneinfo/Europe/Madrid ]; then
+	ln -sf /usr/share/zoneinfo/Europe/Madrid /etc/localtime
+	echo "Europe/Madrid" > /etc/timezone
+fi
+
+# --- Nombre de host por defecto --------------------------------------------
+# (en la sesión live lo sobrescribe live-config con lo indicado en el arranque)
+echo "pandaos" > /etc/hostname 2>/dev/null || true
+grep -q '^127\.0\.1\.1' /etc/hosts 2>/dev/null || echo "127.0.1.1	pandaos" >> /etc/hosts
+
+# --- SDDM (gestor de sesión) ------------------------------------------------
+mkdir -p /etc/sddm.conf.d
+{
+	echo "# PandA! OS - configuración del gestor de sesión"
+	echo "[General]"
+	echo "HaltCommand=/usr/bin/systemctl poweroff"
+	echo "RebootCommand=/usr/bin/systemctl reboot"
+	if [ -d /usr/share/sddm/themes/breeze ]; then
+		echo
+		echo "[Theme]"
+		echo "Current=breeze"
+	fi
+} > /etc/sddm.conf.d/10-panda-os.conf
+
+if [ -e /usr/lib/systemd/system/sddm.service ]; then
+	systemctl enable sddm.service >/dev/null 2>&1 || true
+	ln -sf /usr/lib/systemd/system/sddm.service /etc/systemd/system/display-manager.service
+fi
+
+# --- Lanzador del instalador: solo el de PandA! OS --------------------------
+# calamares-settings-debian instala su propio lanzador ("Install Debian") y un
+# script de autostart que copia su icono al escritorio. En la sesión live
+# aparecerían DOS iconos, así que se retiran los suyos y se conservan los de
+# PandA! OS (definidos en config/includes.chroot).
+for f in \
+	/etc/xdg/autostart/calamares-desktop-icon.desktop \
+	/usr/share/applications/calamares-install-debian.desktop \
+	/usr/bin/calamares-install-debian \
+	/usr/bin/add-calamares-desktop-icon \
+	/usr/share/pixmaps/install-debian.png
+do
+	rm -f "$f"
+done
+
+# --- Servicios del sistema (impresión) --------------------------------------
+for svc in cups.service cups.socket cups-browsed.service; do
+	if [ -e "/usr/lib/systemd/system/${svc}" ]; then
+		systemctl enable "${svc}" >/dev/null 2>&1 || true
+	fi
+done
+
+# --- Permisos de los lanzadores de PandA! OS --------------------------------
+# (+x por si el repositorio se clonó desde Windows, que no conserva el bit)
+chmod 0755 /usr/local/bin/pandaos-install 2>/dev/null || true
+chmod 0755 /usr/local/bin/pandaos-desktop-icon 2>/dev/null || true
+chmod 0644 /usr/share/applications/pandaos-install.desktop 2>/dev/null || true
+chmod 0644 /etc/xdg/autostart/pandaos-install-icon.desktop 2>/dev/null || true
+
+# --- Caché de iconos (para que aparezca el icono del instalador) ------------
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+	gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor 2>/dev/null || true
+fi
+if command -v update-desktop-database >/dev/null 2>&1; then
+	update-desktop-database -q /usr/share/applications 2>/dev/null || true
+fi
+
+echo "[PandA! OS] Configuración regional y de sesión aplicada"

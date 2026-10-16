@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Instalar PandA! OS
+GenericName=Instalador de PandA! OS
+Comment=Instala PandA! OS en este equipo con Calamares
+Comment[es]=Instala PandA! OS en este equipo con Calamares
+Exec=pandaos-install
+TryExec=pandaos-install
+Icon=pandaos-install
+Terminal=false
+Categories=Qt;System;
+Keywords=calamares;instalar;instalador;pandaos;oficina;
+StartupWMClass=calamares
+StartupNotify=true

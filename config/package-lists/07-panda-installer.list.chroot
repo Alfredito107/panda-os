@@ -1,0 +1,13 @@
+# ============================================================================
+#  PandA! OS · 07 - Instalador gráfico Calamares
+# ============================================================================
+#  Si NO quieres instalador (ISO 100 % live), borra este fichero y recompila.
+#
+#  `calamares`                     -> instalador (paquete oficial de Debian 13)
+#  `calamares-settings-debian`     -> configuración y módulos para Debian;
+#                                     PandA! OS sobrescribe settings.conf,
+#                                     branding y varios módulos en
+#                                     config/includes.chroot/etc/calamares/
+
+calamares
+calamares-settings-debian

@@ -1,0 +1,8 @@
+# ============================================================================
+#  PandA! OS · 04 - Navegador web
+# ============================================================================
+# firefox-esr-l10n-es-es -> paquete de idioma español (España)
+# IMPORTANTE: un paquete por línea, sin comentarios al final de la línea.
+
+firefox-esr
+firefox-esr-l10n-es-es

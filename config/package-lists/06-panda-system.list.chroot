@@ -1,0 +1,37 @@
+# ============================================================================
+#  PandA! OS · 06 - Impresión, copias de seguridad y movilidad
+# ============================================================================
+# IMPORTANTE: un paquete por línea, sin comentarios al final de la línea.
+
+# --- Impresión ---------------------------------------------------------------
+# cups-pk-helper     -> pedir la contraseña de administrador al añadir impresoras
+# printer-driver-all -> drivers libres para impresoras habituales (~80 MB)
+# print-manager      -> configuración de impresoras en KDE
+cups
+cups-client
+cups-filters
+cups-browsed
+cups-pk-helper
+printer-driver-all
+print-manager
+
+# --- Copias de seguridad y restauración (imprescindible en inventarios) -----
+# cron -> timeshift programa sus copias con cron/systemd
+timeshift
+cron
+rsync
+
+# --- Integración con el móvil ------------------------------------------------
+kdeconnect
+
+# --- Batería, energía y sesión ----------------------------------------------
+powerdevil
+upower
+
+# --- Integración del escritorio (portales, miniaturas, monedero) -------------
+xdg-desktop-portal-kde
+kio-extras
+kwalletmanager
+
+# --- Fecha y hora automáticas -----------------------------------------------
+systemd-timesyncd
